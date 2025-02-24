@@ -1,10 +1,11 @@
 function QP = knap2qubo(weights, values, P, maxW)
 
-Q = -P/maxW * kron(weights', weights);
+Q = P/maxW * kron(weights', weights);
 
-c = values;
+c = -values;
 d = 0;
 
-QP = qubo(Q,c,d);
+QP = qubo(Q',c,d);
 
 end
+
