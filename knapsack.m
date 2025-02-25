@@ -1,30 +1,30 @@
-display "QUBO Knapsack"
-
 rng(10)
 
 w = [2 4 5 6 9];  
 v = [10 20 35 30 65];  
-maxW = 11;  % Nuova capacità massima  
+capacity = 11;  % Nuova capacità massima  
 
-P = 2*maxW;
-Q = kron(w', w);
+P = 2*capacity;
 
 numShots = ones(100,1);
 
 bestVal = 1e10;
 bestX = 0;
-qubo_prob = knap2qubo(w, v, P, maxW);
+qubo_prob = knap2qubo(w, v, P, capacity);
+%qubo_prob = knap2ansatz(w,v,P,capacity);
 
 for i = numShots
-    qubo_prob = knap2qubo(w, v, P, maxW);
+    qubo_prob = knap2qubo(w, v, P, capacity);
     result = solve(qubo_prob, Algorithm=qaoa);
-    if w*result.BestX <= maxW
+
+    if w*result.BestX <= capacity
         if result.BestFunctionValue < bestVal
             fprintf('Improved! %.2f -> %.2f\n', bestVal, result.BestFunctionValue)
             bestVal = result.BestFunctionValue;
             bestX = result.BestX;
         end
     end
+
 end
 
 if bestVal == 1e10
