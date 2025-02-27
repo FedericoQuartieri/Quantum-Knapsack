@@ -10,12 +10,12 @@ d = P*maxW*maxW;
 
 N = length(values)
 
-numLayers = 3;
+numLayers = 2;
 numShots = 1000;
 objFcn = @(theta) -expectedObjectiveValue(N, h, J, values, weights, P, maxW, theta, numLayers,numShots);
 bound = repmat(pi,2*numLayers,1);
 %bound is a column vector of 2*numLayers elements with pi in each element
-x0Theta = rand(2,numLayers);
+x0Theta = pi*ones(2,numLayers);
 
 figure(1)
 plot(qaoaCircuit(N,h,J,x0Theta,numLayers))

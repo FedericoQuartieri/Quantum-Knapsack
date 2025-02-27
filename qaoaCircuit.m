@@ -9,18 +9,21 @@ function circuit = qaoaCircuit(N, h, J, params, r)
         for k = 1:(N)
             for l = 1:(N)
                 if l==k  
-                    continue
+                    theta = 2 * params(1,j) * J(k,l);
+                    gates = [gates; rzGate(l, 2*theta)];
+                else 
+                    theta = 2 * params(1,j) * J(k,l);
+                    Z1 = [
+                        1, 0;
+                        0, cos(theta)+1i*sin(theta)
+                    ];
+    
+                    U = blkdiag(Z1, Z1); 
+    
+                    customGate = unitaryGate([k, l], U);
+                    gates = [gates; customGate];
                 end
-                theta = 2 * params(1,j) * J(k,l);
-                Z1 = [
-                    1, 0;
-                    0, cos(theta)+1i*sin(theta)
-                ];
 
-                U = blkdiag(Z1, Z1); 
-
-                customGate = unitaryGate([k, l], U);
-                gates = [gates; customGate];
             end
             gates = [gates; rzGate(k,2*params(1,j)*h(k))];
         end

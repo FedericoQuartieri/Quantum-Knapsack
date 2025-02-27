@@ -3,9 +3,9 @@ rng(10)
 clear
 clc
 
-w = [2 4 5];  
-v = [10 35 10];  
-capacity = 9;  % Capacità massima  
+w = [2 2 2];  
+v = [10 10 10];
+capacity = 12345;  % Capacità massima  
 
 P = 4* sum(v)*capacity;
 

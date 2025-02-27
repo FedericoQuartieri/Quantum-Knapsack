@@ -15,10 +15,10 @@ function expVal = expectedObjectiveValue(N, h, J, values, weights, P, maxW, thet
 
     if form == 0
     
-        scaled_states_matrix = probabilities'*states_matrix;
         
         offsetWeights = (states_matrix*weights'- ones(numStates,1)*maxW);
-        objVector = states_matrix*values' - P* offsetWeights.*offsetWeights;
+        objVector = states_matrix*values' - P* offsetWeights.*offsetWeights
+       
         
         expVal = probabilities' * objVector;
     end
@@ -27,10 +27,12 @@ function expVal = expectedObjectiveValue(N, h, J, values, weights, P, maxW, thet
 
         expVal = 0;
        
-        for i = 1:size(values)
+        for i = 1:size(probabilities,1)
             f = states_matrix(i, :)*values';
-            constraints = (states_matrix(i,:)*weights'-maxW)^2
-            expVal = expVal + probabilities(i)*(f-P*constraints)
+            constraints = (states_matrix(i,:)*weights'-maxW)^2;
+            value = (f-P*constraints);
+            expVal = expVal + probabilities(i)*value;
+            
         end
     end
 
@@ -38,6 +40,7 @@ function expVal = expectedObjectiveValue(N, h, J, values, weights, P, maxW, thet
     
     disp("EXP VAL")
     disp(expVal);
+    
 
 end
 
