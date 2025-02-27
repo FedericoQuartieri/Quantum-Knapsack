@@ -1,17 +1,21 @@
 rng(10)
 
-w = [2 4 5];  
-v = [10 10 35];  
-capacity = 8;  % Nuova capacità massima  
+clear
+clc
 
-P = 2*capacity;
-%P = 5;
+w = [2 4 5];  
+v = [10 35 10];  
+capacity = 9;  % Capacità massima  
+
+P = 4* sum(v)*capacity;
 
 numShots = ones(100,1);
 
 bestVal = 1e10;
 bestX = 0;
-solver = "qubo"
+solver = "ansatz";
+disp("Solving as")
+disp(solver)
 
 if solver == "qubo"
     
@@ -45,6 +49,10 @@ end
 
 if solver == "ansatz"
 
-    knap2ansatz(w,v,P,capacity);
-
+    optimizedCircuit = knap2ansatz(w,v,P,capacity);
+    plot(optimizedCircuit)
+    
+    disp("DONE")
+    sv = simulate(optimizedCircuit);
+    histogram(sv)
 end

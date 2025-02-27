@@ -1,23 +1,27 @@
-function optimizedCircuit = knap2qubo(weights, values, P, maxW)
+function optimizedCircuit = knap2ansatz(weights, values, P, maxW)
 
 display "Ansatz Knapsack"
 
-Q = P * kron(weights', weights);
+Q = -P * (weights' * weights);
+c = values + 2*P*maxW*weights;
+d = P*maxW*maxW;
 
-[h, J, constant] = qubo_to_ising(Q);
+[h, J, constant] = qubo_to_ising(Q + diag(c));
 
 N = length(values)
 
-numLayers = N;
+numLayers = 3;
 numShots = 1000;
-objFcn = @(theta) -expectedObjectiveValue(N, h, J, values, theta, numLayers,numShots);
+objFcn = @(theta) -expectedObjectiveValue(N, h, J, values, weights, P, maxW, theta, numLayers,numShots);
 bound = repmat(pi,2*numLayers,1);
 %bound is a column vector of 2*numLayers elements with pi in each element
 x0Theta = rand(2,numLayers);
+
+figure(1)
+plot(qaoaCircuit(N,h,J,x0Theta,numLayers))
+
 options = optimoptions("surrogateopt",InitialPoints=x0Theta,MaxFunctionEvaluations=100);
 [angles,bestfval] = surrogateopt(objFcn,-bound,bound,[],[],[],[],[],options)
 
 optimizedCircuit = qaoaCircuit(N,h,J,angles,numLayers);
-
-sv = simulate(optimizedCircuit);
-histogram(sv)
+end
