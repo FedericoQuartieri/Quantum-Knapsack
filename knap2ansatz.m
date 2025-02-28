@@ -2,7 +2,7 @@ function optimizedCircuit = knap2ansatz(weights, values, P, maxW)
 
 display "Ansatz Knapsack"
 
-%computing qubo matrixes
+%computing qubo matrices
 Q = -P * (weights' * weights);
 c = values + 2*P*maxW*weights;
 d = P*maxW*maxW;
@@ -19,7 +19,7 @@ x0Theta = pi*ones(2,numLayers); % initial guess for angles
 
 
 figure(1)
-plot(qaoaCircuit(N,h,J,x0Theta,numLayers)) %show circuits with all gates and with initial angles 
+plot(qaoaCircuit(N,h,J,x0Theta,numLayers)) %show circuit with all gates and with initial angles 
 
 options = optimoptions("surrogateopt",InitialPoints=x0Theta,MaxFunctionEvaluations=100);
 [angles,bestfval] = surrogateopt(objFcn,-bound,bound,[],[],[],[],[],options); %compute best angles

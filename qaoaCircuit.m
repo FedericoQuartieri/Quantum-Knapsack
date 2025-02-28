@@ -1,7 +1,7 @@
 function circuit = qaoaCircuit(N, h, J, params, r) 
     params = reshape(params,[2 r]);
-    %[g1 g2 ...
-    %[b1 b2 ...
+    %[gamma1 gamma2 ...]
+    %[beta1 beta2 ...]
     
     gates = [];
     for j = 1:r

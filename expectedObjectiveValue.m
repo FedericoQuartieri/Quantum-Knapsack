@@ -42,10 +42,13 @@ function expVal = expectedObjectiveValue(N, h, J, values, weights, P, maxW, thet
     end
 
     
-    % both method seems to provide the same answare
+    % both methods seem to provide the same answer
 
-    % in both cases the value is computed by extracting the value of the function to maximize (actual fucntion and penalty)
-    % for each possible state and then multiply it by its probability
+    % in both cases, the value is computed by extracting the value of the 
+    % function to maximize (actual function and penalty) for each possible
+    % state.
+    % Then multiplying by their probability, we obtain an average of 
+    % the objective values of possible states weighted by their probabilities.
     
 
 end
