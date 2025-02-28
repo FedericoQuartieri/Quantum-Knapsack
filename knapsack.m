@@ -3,29 +3,30 @@ rng(10)
 clear
 clc
 
-w = [2 2 2];  
-v = [10 10 10];
-capacity = 12345;  % Capacità massima  
+w = [2 2 2];  % weights
+v = [10 10 10]; % values
+capacity = 12345;  % maximum capacity  
+P = 4* sum(v)*capacity; % penalty
+numShots = ones(100,1); 
+solver = "ansatz"; % which solver to use
 
-P = 4* sum(v)*capacity;
 
-numShots = ones(100,1);
 
 bestVal = 1e10;
 bestX = 0;
-solver = "ansatz";
-disp("Solving as")
-disp(solver)
 
+%--------------solving with qubo-------------
 if solver == "qubo"
     
     qubo_prob = knap2qubo(w, v, P, capacity);
     
+
     for i = numShots
         qubo_prob = knap2qubo(w, v, P, capacity);
-        result = solve(qubo_prob, Algorithm=qaoa);
+        result = solve(qubo_prob, Algorithm=qaoa); 
     
-        if w*result.BestX <= capacity
+        
+        if w*result.BestX <= capacity % verify constraints satisfaction
             if result.BestFunctionValue < bestVal
                 fprintf('Improved! %.2f -> %.2f\n', bestVal, result.BestFunctionValue)
                 bestVal = result.BestFunctionValue;
@@ -47,12 +48,29 @@ if solver == "qubo"
 
 end
 
+
+%-----------solving with ansatz-------------
 if solver == "ansatz"
 
-    optimizedCircuit = knap2ansatz(w,v,P,capacity);
+    optimizedCircuit = knap2ansatz(w,v,P,capacity); % computing circuit
     plot(optimizedCircuit)
     
-    disp("DONE")
     sv = simulate(optimizedCircuit);
     histogram(sv)
+    meas = randsample(sv,1000);
+
+    [states, probabilities] = querystates(meas);
+    [maxValue, index] = max(probabilities);
+    states_matrix = double(char(states) == '1');
+    bestX = states_matrix(index, :);
+
+    disp("bestX = ");
+    disp(bestX);
+
+    disp("bestValue = ");
+    disp(bestX*v');
+
+
+
+
 end

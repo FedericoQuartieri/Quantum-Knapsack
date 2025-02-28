@@ -7,5 +7,4 @@ function [h, J, constant] = qubo_to_ising(Q)
 
     h = -(h1+h2)/4;
     constant = sum(Q(:)) / 4;
-    %J = tril(J, -1);
 end

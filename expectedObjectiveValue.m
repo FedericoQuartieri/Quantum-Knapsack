@@ -3,8 +3,8 @@ function expVal = expectedObjectiveValue(N, h, J, values, weights, P, maxW, thet
     circuit = qaoaCircuit(N, h, J,theta,numLayers);
     sv = simulate(circuit);
     
-    % Measure circuit numShots times.
-    meas = randsample(sv,numShots);
+   
+    meas = randsample(sv,numShots); % Measure circuit numShots times.
 
     [states, probabilities] = querystates(meas);
 
@@ -13,15 +13,20 @@ function expVal = expectedObjectiveValue(N, h, J, values, weights, P, maxW, thet
     
     form = 1;
 
+    %----------first way of computing value-----
+
     if form == 0
     
         
         offsetWeights = (states_matrix*weights'- ones(numStates,1)*maxW);
-        objVector = states_matrix*values' - P* offsetWeights.*offsetWeights
+        objVector = states_matrix*values' - P* offsetWeights.*offsetWeights;
        
         
         expVal = probabilities' * objVector;
     end
+
+    %----------second way of computing value-----
+
 
     if form == 1
 
@@ -36,10 +41,11 @@ function expVal = expectedObjectiveValue(N, h, J, values, weights, P, maxW, thet
         end
     end
 
-    % expVal = probabilities'*states_matrix * values' - P*((states_matrix * weights' - ones(numStates,1)*maxW))^2;
     
-    disp("EXP VAL")
-    disp(expVal);
+    % both method seems to provide the same answare
+
+    % in both cases the value is computed by extracting the value of the function to maximize (actual fucntion and penalty)
+    % for each possible state and then multiply it by its probability
     
 
 end
