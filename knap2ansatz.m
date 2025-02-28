@@ -18,8 +18,8 @@ bound = repmat(pi,2*numLayers,1); %bound is a column vector of 2*numLayers eleme
 x0Theta = pi*ones(2,numLayers); % initial guess for angles
 
 
-figure(1)
-plot(qaoaCircuit(N,h,J,x0Theta,numLayers)) %show circuit with all gates and with initial angles 
+%figure(1)
+%plot(qaoaCircuit(N,h,J,x0Theta,numLayers)) %show circuit with all gates and with initial angles 
 
 options = optimoptions("surrogateopt",InitialPoints=x0Theta,MaxFunctionEvaluations=100);
 [angles,bestfval] = surrogateopt(objFcn,-bound,bound,[],[],[],[],[],options); %compute best angles

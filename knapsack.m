@@ -16,11 +16,7 @@ bestVal = 1e10;
 bestX = 0;
 
 %--------------solving with qubo-------------
-if solver == "qubo"
-    
-    qubo_prob = knap2qubo(w, v, P, capacity);
-    
-
+if solver == "qubo"  
     for i = numShots
         qubo_prob = knap2qubo(w, v, P, capacity);
         result = solve(qubo_prob, Algorithm=qaoa); 
