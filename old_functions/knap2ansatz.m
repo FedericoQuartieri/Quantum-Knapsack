@@ -1,7 +1,5 @@
 function optimizedCircuit = knap2ansatz(weights, values, P, maxW, numLayers)
 
-display "Ansatz Knapsack"
-
 %computing qubo matrices
 Q = -P * (weights' * weights);
 c = values + 2*P*maxW*weights;

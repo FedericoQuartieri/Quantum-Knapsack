@@ -11,7 +11,7 @@ function expVal = expectedObjectiveValue(N, h, J, values, weights, P, maxW, thet
     numStates = size(states, 1);
     states_matrix = double(char(states) == '1');
     
-    form = 1;
+    form = 0;
 
     %----------first way of computing value-----
 
@@ -21,7 +21,6 @@ function expVal = expectedObjectiveValue(N, h, J, values, weights, P, maxW, thet
         offsetWeights = (states_matrix*weights'- ones(numStates,1)*maxW);
         objVector = states_matrix*values' - P* offsetWeights.*offsetWeights;
        
-        
         expVal = probabilities' * objVector;
     end
 
@@ -42,7 +41,7 @@ function expVal = expectedObjectiveValue(N, h, J, values, weights, P, maxW, thet
     end
 
     
-    % both methods seem to provide the same answer
+    % both methods are equivalent, they provide the same results
 
     % in both cases, the value is computed by extracting the value of the 
     % function to maximize (actual function and penalty) for each possible
