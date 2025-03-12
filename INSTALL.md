@@ -26,16 +26,17 @@ To run the MATLAB script for the Knapsack problem, ensure you have the following
         ```
   
 3. **Download the Script**
-   - Place `knapsack_live_script.mlx` in a working MATLAB directory.
+   - Place ```knapsack_live_script.mlx``` in a working MATLAB directory.
+   - Also place the supporting scripts ```qaoaCircuit.m``` and ```expectedObjectiveValue.m``` in the same directory as the live script.
 
 4. **Run the Script**
    - Open MATLAB.
    - Navigate to the script directory.
-   - Run:
+   - Open the live script in MATLAB:
      ```matlab
      open('knapsack_live_script.mlx');
      ```
-   - Click "Run" to execute the script.
+   - Click "Run" to execute the script sections.
 
 ## Troubleshooting
 - If you encounter missing dependencies, use:
