@@ -6,10 +6,10 @@ function circuit = qaoaCircuit(N, h, J, params, r)
     gates = [];
     for j = 1:r
         for k = 1:(N)
-            for l = 1:(N)
-                theta = 2 * params(1,j) * J(k,l);
+            for l = k:(N)
+                theta = params(1,j) * (J(k,l)+J(l,k));
                 if l==k  % rz gate of second product of cost Hamiltonian applied to a single qubit with double angle
-                    gates = [gates; rzGate(l, 2*theta)];
+                    gates = [gates; rzGate(l, theta)];
 
                 else  % rzz gate of second product of cost Hamiltonian applied to every pair of qubit
                     
@@ -19,19 +19,22 @@ function circuit = qaoaCircuit(N, h, J, params, r)
                         0, cos(theta)+1i*sin(theta)
                     ];
         
-                    RZZ = blkdiag(Z1, Z1); 
+                    % RZZ = blkdiag(Z1, Z1); 
+                    gates = [gates; cnotGate(k,l)];
+                    gates = [gates; rzGate(l, theta)];
+                    gates = [gates; cnotGate(k,l)];
     
-                    customGate = unitaryGate([k, l], RZZ);
-                    gates = [gates; customGate];
+                    % customGate = unitaryGate([k, l], RZZ);
+                    % gates = [gates; customGate];
                 end
 
             end
             % rz gate of first product of the cost Hamiltonian
-            gates = [gates; rzGate(k, 2*params(1,j)*h(k))];
+            % gates = [gates; rzGate(k, 2*params(1,j)*h(k))];
         end
 
         % Include a mixer gate with the specified beta angle.
-        gates = [gates; rxGate(1:N,2*params(2,j))];        
+        gates = [gates; rxGate(1:N,2*params(2,j)); ];
     end
 
     % build and return circuit
